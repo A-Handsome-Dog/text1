@@ -1,0 +1,130 @@
+注：USS 是针对某个进程开始有可疑内存泄露的情况，进行检测的最佳数字；
+怀疑某个程序有内存泄露可以查看这个值是否一直有增加。
+
+也可以使用如下命令查看USS（静态查看）：
+	先输入：adb shell
+	再输入：su
+	最后：procrank -p
+
+cmd窗口输入命令：
+	adb shell dumpsys battery（耗电测试）
+
+	adb shell am start -W packagename/MainActivity（测试App的启动时间）
+（例如：adb shell am start -W com.android.calculator2/ com.android.calculator2.Calculator）
+
+-------------------------------------------------------------------------------------------------------------------------
+monkey压力测试的流程：
+1、安装JDK并配置环境变量；
+2、配置SDK环境变量；
+3、准备安装安卓模拟器/连接真机；
+4、从开发获取预测的app包；
+5、使用adb命令把app包安装在模拟器中；
+6、使用monkey命令执行测试（包括添加事件、种子、打印日志、添加调试参数等等）
+7、把打印的日志文件输出到本地电脑；
+8、添加监控（例如：Emmage）,让它能打印出报告；
+9、同时再使用monkey执行测试；
+10、查看测试报告，并分析结果。
+
+-------------------------------------------------------------------------------------------------------------------------
+monkey自动化随机测试的步骤：
+1：下载android SDK工具（目的：得到ADB）,配置其环境变量；
+2; 下载jdk，配置其环境变量；
+3; 下载模拟器，或者准备一台真手机；
+4; 在模拟器中，或手机中装入APK程序；
+5： 在命令行中利用ADB工具调用monkey对apk应用进行模拟事件加压测试；
+6： App崩溃、闪退、未响应则提单。
+
+-------------------------------------------------------------------------------------------------------------------------
+App测试特点（除了按需求说明书外的功能测试）
+1： 适配性测试（也叫兼容性测试，不同的安卓版本，IOS，不同手机品牌）
+2： 网络测试 （2G/3G/4G/5G/WIFI）
+3： 在线升级测试
+4： 中断测试（电话、短信消息打扰）
+5： 耗电量测试
+6： 弱网测试（信号屏蔽实验室）
+7： 安装卸载
+8:  流量测试
+9: 稳定性压力测试
+10：交互测试（如：调用相机、分享功能）
+
+-------------------------------------------------------------------------------------------------------------------------
+当Monkey运行出现缺陷时需要提供给开发的内容：
+1) 被测试手机的详细信息；
+2)monkey测试日志： 在cmd中输入命令后的内容；
+3)手机运行截图；
+4)monkey运行时手机日志：可以定位到某一位置 adb logcat  >d:\test
+
+Monkey测试是Android平台下自动化测试的一种快速有效的手段，可以模拟用户触摸屏幕、
+滑动轨迹球、按键等操作来对模拟器或者手机设备上的软件进行压力测试，
+检测该软件的稳定性、健壮性。
+
+monkey压力测试一般都是压100万次以上
+
+----------------------------------------------------------------------------------------------------------------------------------------
+一、要记的命令
+1、adb devices（查看连接设备的信息）
+2、adb connect 设备名称或者IP地址（连接手机）
+3、adb shell pull 手机路径 电脑路径（pull从手机发送到电脑）
+4、adb shell push 电脑路径 手机路径 （push从电脑发送到手机）
+5、adb install 电脑的安装包路径（命令安装软件）
+6、adb uninstall 程序名 （命令卸载程序）
+7、adb shell pm list package -f （查看手机所有包名与对应路径）
+8、adb shell (进入手机系统内部)
+9、ps | grep monkey（查看正在运行中monkey的端口号）
+10、adb shell dumpsys activity > 电脑路径＋文档（将当前运行的activity（程序）输出到本地目录）
+11、adb shell dumpsys window w | findstr name= （查看打开程序的包名）
+----------------------------------------------------------------------------------------------------------
+12、adb shell monkey -p (程序包名) （各种参数） -v (事件数) > (电脑本地目录)
+	1、时间执行延迟          	  参数–-throttle 
+	2、触摸事件百分比       	  参数--pct-touch
+	3、滑动事件百分比       	  参数--pct-motion
+	4、缩放事件百分比       	  参数--pct-pinchzoom
+	5、轨迹球事件百分比     	  参数--pct-trackball
+	6、屏幕旋转事件百分比   	  参数--pct-rotation 
+	7、基本导航事件百分比   	  参数--pct-nav
+	8、主要导航事件百分比   	  参数--pct-majornav
+	9、系统事件百分比          	  参数--pct-syskeys
+	10、Activity启动事件百分比      参数--pct-appswitch
+	11、键盘轻弹事件百分比           参数--pct-flip
+	12、其他事件百分比                  参数--pct-anyevent
+	13、种子数                                参数 -s+数字
+将monkey压力测试的日志输出到本地目录
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+1、端口号被占用。（比如占用5037的端口号）
+2、netstat -ano|findstr 5037  (查找出占用5037端口号的进程PID) 
+3、执行kill -9 PID（杀掉对应的进程PID）。
+
+
+An unknown server-side error occurred while processing the command. Original error: The file at
+ 'C:\Users\EDZ\AppData\Local\Programs\Appium\resources\app\node_modules\appium\node_modules\appium-uiautomator2-server\apks\appium-uiautomator2-server-debug-androidTest.apk'
+ does not exist or is not accessible
+
+
+An unknown server-side error occurred while processing the command. Original error: The instrumentation process cannot be initialized.
+ Make sure the application under test does not crash and investigate the logcat output.
+
+
+
+{
+  "platformName": "Android",
+  "platformVersion": "7.1.1",
+  "deviceName": "e0eadcb5",
+  "appPackage": "com.android.settings",
+  "appActivity": "com.android.settings.Settings",
+  "unicodeKeyboard": true,
+  "resetKeyboard": true
+}
+	
+
+{
+  "platformName": "Android",
+  "platformVersion": "7.1.1",
+  "deviceName": "e0eadcb5",
+  "appPackage": "com.sankuai.meituan",
+  "appActivity": "com.meituan.android.base.knb.KNBWebViewActivity",
+  "unicodeKeyboard": true,
+  "resetKeyboard": true,
+  "skipServerInstallation": true,
+  "skipDeviceInitialization": true
+}
